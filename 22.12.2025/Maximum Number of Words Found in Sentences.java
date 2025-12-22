@@ -9,7 +9,6 @@ class Solution {
                 }
                 if(count>max) max = count;
             }
-
         }
         return max+1;
     }
