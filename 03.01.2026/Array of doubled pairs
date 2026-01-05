@@ -1,0 +1,68 @@
+class Solution(object):
+    def abs_sort(self, arr):
+        if len(arr) <= 1:
+            return arr
+        
+        l = len(arr) // 2
+        arr_l = self.abs_sort(arr[:l])
+        arr_r = self.abs_sort(arr[l:])
+        
+        res_arr = []
+        while [] != arr_l and [] != arr_r:
+            vl, vr = abs(arr_l[0]), abs(arr_r[0])
+            if vl > vr:
+                res_arr.append(arr_r.pop(0))
+            else:
+                res_arr.append(arr_l.pop(0))
+        
+        # Only one of the arrays is not None at this point
+        for n in arr_l:
+            res_arr.append(n)
+            
+        for n in arr_r:
+            res_arr.append(n)
+            
+        return res_arr
+    def canReorderDoubled(self, arr):
+        """
+        :type arr: List[int]
+        :rtype: bool
+        """
+        
+        l = len(arr)
+        
+        d = {}
+        for elem in arr:
+            d.setdefault(elem, 0)
+            d[elem] += 1
+        
+        index = 0
+        pair_list = []
+        
+        sorted_keys_array = self.abs_sort(d.keys())
+        print(sorted_keys_array)
+
+        for k in sorted_keys_array:
+            occurence_count = d[k]
+            if 0 == occurence_count:
+                continue
+            pair_value = k * 2
+            
+            pair_occurence_count = d.get(pair_value, -1)
+            if -1 == pair_occurence_count or pair_occurence_count < occurence_count:
+                print (d)
+                print (k, pair_occurence_count, occurence_count)
+                return False
+            
+            d[k] -= occurence_count
+            
+            if k != pair_value:
+                d[pair_value] -= occurence_count
+            
+        
+        for k, v in d.items():
+            if 0 != v:
+                print(d)
+                return False
+        
+        return True
