@@ -1,0 +1,16 @@
+def canPairDivisible(arr, k):
+    arr.sort()
+    freq = {}
+
+    for x in arr:
+        r = x % k
+        freq[r] = freq.get(r, 0) + 1
+
+    for r in freq:
+        if r == 0:
+            if freq[r] % 2 != 0:
+                return False
+        elif freq.get(k - r, 0) != freq[r]:
+            return False
+
+    return True
