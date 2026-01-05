@@ -1,0 +1,11 @@
+def canPairWithSum(arr, k):
+    arr.sort()
+    i, j = 0, len(arr) - 1
+
+    while i < j:
+        if arr[i] + arr[j] != k:
+            return False
+        i += 1
+        j -= 1
+
+    return True
