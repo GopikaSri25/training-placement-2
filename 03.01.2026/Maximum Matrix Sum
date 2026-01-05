@@ -1,0 +1,13 @@
+class Solution:
+    def maxMatrixSum(self,matrix):
+        s=0
+        minAbs=10**9
+        cntNeg=0
+        for row in matrix:
+            for x in row:
+                if abs(x)<minAbs:minAbs=abs(x)
+                if x<0:
+                    s-=x
+                    cntNeg+=1
+                else:s+=x
+        return s-2*minAbs if cntNeg&1 else s
