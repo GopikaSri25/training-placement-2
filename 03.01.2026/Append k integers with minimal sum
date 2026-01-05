@@ -1,0 +1,7 @@
+class Solution(object):
+    def minimalKSum(self, nums, k):
+        nums = sorted(list(set(nums)))
+        for i in range(len(nums)):
+            if nums[i]-1-i>=k:
+                return (k+i)*(k+i+1)/2-sum(nums[:i])
+        return (k+len(nums))*(k+len(nums)+1)/2-sum(nums)
