@@ -1,0 +1,46 @@
+class Solution(object):
+    def unmarkedSumArray(self, nums, queries):
+        """
+        :type nums: List[int]
+        :type queries: List[List[int]]
+        :rtype: List[int]
+        """
+        pq = []
+
+        total_sum = sum(nums)
+
+        occupied = [False] * len(nums)
+
+        for i, num in enumerate(nums):
+            heapq.heappush(pq, (num, i))
+        
+        ans = []
+        
+        for query in queries:
+            if not occupied[query[0]]:
+                occupied[query[0]] = True
+                total_sum -= nums[query[0]]
+            
+            i = 0
+
+            while i < query[1] and len(pq) > 0:
+                num = heapq.heappop(pq)
+
+                print(num)
+
+                if occupied[num[1]]:
+                    continue
+                
+                if num[1] == query[0]:
+                    continue
+
+                if not occupied[num[1]]:
+                    occupied[num[1]] = True
+
+                    total_sum -= nums[num[1]]
+
+                i += 1
+            
+            ans.append(total_sum)
+        
+        return ans
