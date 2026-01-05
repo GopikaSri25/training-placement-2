@@ -1,0 +1,17 @@
+class Solution(object):
+    def maxScore(self, nums):
+        k = j = 0 
+        n = []
+        for num in nums:
+            if 0 < num:
+                k += num
+                j += 1
+            else:
+                n.append(num)
+        n.sort(reverse=True)
+        for num in n:
+            k += num
+            if k < 1:
+                break
+            j += 1
+        return j
