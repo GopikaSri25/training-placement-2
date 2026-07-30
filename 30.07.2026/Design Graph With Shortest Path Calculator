@@ -1,0 +1,83 @@
+import java.util.*;
+
+class Graph {
+
+    class Edge {
+        int to;
+        int cost;
+
+        Edge(int to, int cost) {
+            this.to = to;
+            this.cost = cost;
+        }
+    }
+
+    ArrayList<Edge>[] graph;
+    int n;
+
+    public Graph(int n, int[][] edges) {
+
+        this.n = n;
+
+        graph = new ArrayList[n];
+
+        for (int i = 0; i < n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
+    
+        for (int[] edge : edges) {
+            graph[edge[0]].add(new Edge(edge[1], edge[2]));
+        }
+    }
+ 
+    public void addEdge(int[] edge) {
+
+        graph[edge[0]].add(new Edge(edge[1], edge[2]));
+
+    }
+
+    public int shortestPath(int node1, int node2) {
+
+        int[] dist = new int[n];
+
+        Arrays.fill(dist, Integer.MAX_VALUE);
+
+        PriorityQueue<int[]> pq =
+                new PriorityQueue<>((a, b) -> a[1] - b[1]);
+
+        dist[node1] = 0;
+
+        pq.offer(new int[]{node1, 0});
+
+        while (!pq.isEmpty()) {
+
+            int[] current = pq.poll();
+
+            int node = current[0];
+            int cost = current[1];
+
+            if (node == node2) {
+                return cost;
+            }
+
+            if (cost > dist[node]) {
+                continue;
+            }
+
+            for (Edge next : graph[node]) {
+
+                int newCost = cost + next.cost;
+
+                if (newCost < dist[next.to]) {
+
+                    dist[next.to] = newCost;
+
+                    pq.offer(new int[]{next.to, newCost});
+                }
+            }
+        }
+
+        return -1;
+    }
+}
